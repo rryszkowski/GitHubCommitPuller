@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GitHubCommitPuller": {
+      "commandName": "Project",
+      "commandLineArgs": "rryszkowski WMS"
+    }
+  }
+}
