@@ -17,7 +17,7 @@ public class GitHubService : IGitHubService
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri("https://api.github.com/");
-        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("GitHubCommitsFetcher/1.0");
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("GitHubCommitPuller/1.0");
         _documentSession = documentSession;
     }
 
