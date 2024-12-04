@@ -23,19 +23,33 @@ public class GitHubService : IGitHubService
 
     public async Task<IReadOnlyList<CommitResponse>> GetCommitsAsync(string owner, string repo)
     {
+        const int pageSize = 50;
+        var pageNumber = 1;
+        var allCommits = new List<CommitResponse>();
+
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
+        
+        while (true)
+        {
+            var requestUri = $"repos/{owner}/{repo}/commits?per_page={pageSize}&page={pageNumber}";
 
-        var requestUri = $"repos/{owner}/{repo}/commits";
+            var commits = await _httpClient.GetFromJsonAsync<IReadOnlyList<CommitResponse>>(
+                requestUri, options);
 
+            if (commits == null || commits.Count == 0)
+            {
+                break;
+            }
 
-        var commits = await _httpClient.GetFromJsonAsync<IReadOnlyList<CommitResponse>>(
-            requestUri, options);
+            allCommits.AddRange(commits);
+            pageNumber++;
+        }
 
-        return commits ?? [];
+        return allCommits;
     }
 
     public async Task SaveCommitsAsync(IReadOnlyList<CommitResponse> commits, string owner, string repo)
