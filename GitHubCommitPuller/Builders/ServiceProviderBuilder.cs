@@ -3,6 +3,7 @@ using GitHubCommitPuller.Services.Interfaces;
 using GitHubCommitPuller.Services;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Weasel.Core;
 
 namespace GitHubCommitPuller.Builders;
 
@@ -18,7 +19,7 @@ public static class ServiceProviderBuilder
             .AddPolicyHandler(PolicyHelper.GetTimeoutPolicy());
 
         services
-            .AddMarten(opts => opts.Connection("Host=localhost;Database=marten_demo;Username=postgres;Password=password"));
+            .AddMarten(opts => opts.Connection("Host=localhost;Database=commits_db;Username=postgres;Password=password1"));
 
         return services.BuildServiceProvider();
     }
